@@ -55,45 +55,26 @@ const COLORS = [
         text: '#ffffff',
     },
 ];
+
 const span = document.querySelectorAll('.span');
 const container = document.querySelector('#container');
 const colorName = document.querySelector('.name');
 const buttonHEX = document.querySelector('button[data-type="hex"]');
 const buttonRGB = document.querySelector('button[data-type="rgb"]');
-console.log(span);
 
 let currentColorFormat = 'hex';
+buttonHEX.addEventListener('click', () => currentColorFormat = 'hex');
+buttonRGB.addEventListener('click', () => currentColorFormat = 'rgb');
 
 container.addEventListener('click', () => {
     const randomColor = COLORS[Math.floor(Math.random() * COLORS.length)];
 
-    span.forEach((element) => {
-        element.style.backgroundColor = randomColor.text;
-    });
-
     colorName.innerHTML = randomColor[currentColorFormat];
-
     colorName.style.color = randomColor.text;
-
     buttonHEX.style.color = randomColor.text;
-
     buttonRGB.style.color = randomColor.text;
-
     container.style.backgroundColor = randomColor[currentColorFormat];
-    colorName.addEventListener('click', () => {
-        const textToCopy = randomColor[currentColorFormat];
-        navigator.clipboard.writeText(textToCopy);
-    });
-});
+    span.forEach( e => e.style.backgroundColor = randomColor.text );
 
-buttonHEX.addEventListener('click', () => {
-    if (currentColorFormat === 'rgb') {
-        currentColorFormat = 'hex';
-    }
-});
-
-buttonRGB.addEventListener('click', () => {
-    if (currentColorFormat === 'hex') {
-        currentColorFormat = 'rgb';
-    }
+    colorName.addEventListener( 'click', () => navigator.clipboard.writeText(randomColor[currentColorFormat]) );
 });

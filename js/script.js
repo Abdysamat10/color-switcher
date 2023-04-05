@@ -62,11 +62,13 @@ const colorName = document.querySelector('.name');
 const buttonHEX = document.querySelector('[data-type="hex"]');
 const buttonRGB = document.querySelector('[data-type="rgb"]');
 const buttonColor = document.querySelector('[data-type="color"]');
+const buttons = document.querySelectorAll('[data-type]');
 
 let currentColorFormat = 'hex';
+let randomColor;
 
-buttonColor.addEventListener('click', () => {
-    const randomColor = COLORS[Math.floor(Math.random() * COLORS.length)];
+const generateRandomColor = () => {
+    randomColor = COLORS[Math.floor(Math.random() * COLORS.length)];
     colorName.innerHTML = randomColor[currentColorFormat];
     colorName.style.color = randomColor.text;
     buttonHEX.style.color = randomColor.text;
@@ -74,15 +76,27 @@ buttonColor.addEventListener('click', () => {
     buttonColor.style.color = randomColor.text;
     container.style.backgroundColor = randomColor[currentColorFormat];
     span.forEach((e) => (e.style.backgroundColor = randomColor.text));
-    colorName.addEventListener('click', () =>
-        navigator.clipboard.writeText(randomColor[currentColorFormat])
-    );
-    buttonHEX.addEventListener('click', () => {
-        currentColorFormat = 'hex';
-        colorName.innerHTML = randomColor.hex;
-    });
-    buttonRGB.addEventListener('click', () => {
-        currentColorFormat = 'rgb';
-        colorName.innerHTML = randomColor.rgb;
-    });
+};
+
+const copyToClipboard = () =>
+    navigator.clipboard.writeText(randomColor[currentColorFormat]);
+
+const changeToHex = () => {
+    currentColorFormat = 'hex';
+    colorName.innerHTML = randomColor.hex;
+};
+
+const changeToRgb = () => {
+    currentColorFormat = 'rgb';
+    colorName.innerHTML = randomColor.rgb;
+};
+
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {});
 });
+
+buttonColor.addEventListener('click', generateRandomColor);
+colorName.addEventListener('click', copyToClipboard);
+buttonHEX.addEventListener('click', changeToHex);
+buttonRGB.addEventListener('click', changeToRgb);
+
